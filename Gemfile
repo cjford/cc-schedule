@@ -39,12 +39,13 @@ gem 'jquery-rails'
 # gem 'ruby-debug'
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
   gem 'rspec-rails'
+  gem 'autotest-rails'
+  gem 'factory_girl_rails'
   gem 'simplecov'
 end
