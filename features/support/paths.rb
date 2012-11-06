@@ -3,10 +3,12 @@ module NavigationHelpers
 		case page_name
 			when /^the home page$/
 				"/"
-			when /^the location page (?:for "(.+)"?)$/
+			when /^the location page\s*(?:for "(.+)")?$/
 				"/locations/#{$1}"
-			when /^the line page (?:for "(.+)")?$/
+			when /^the line page\s*(?:for "(.+)")?$/
 				"/lines/#{$1}"
 		end
 	end
 end
+
+World(NavigationHelpers)

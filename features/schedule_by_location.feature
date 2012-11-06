@@ -3,10 +3,10 @@ Feature: View cruiser schedules by location
 Scenario: Navigate to location selection page
 	Given I am on the home page
 	When I click "Locations"
-	Then I should be on the locations page
+	Then I should be on the location page
 
 Scenario: Navigate to specific location page
-	Given I am on the locations page
+	Given I am on the location page
 	When I click "Townhouses"
 	Then I should be on the location page for "Townhouses" 
 

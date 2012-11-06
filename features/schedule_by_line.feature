@@ -3,10 +3,10 @@ Feature: View cruiser schedules by line
 Scenario: Navigate to line selection page
 	Given I am on the home page
 	When I click "Lines"
-	Then I should be on the lines page
+	Then I should be on the line page
 
 Scenario: Navigate to specific line page
-	Given I am on the lines page
+	Given I am on the line page
 	When I click "A"
 	Then I should be on the line page for "A"
 
