@@ -1,12 +1,13 @@
 Given /^I am on (.+)$/ do |page_name|
-	visit path_to(page_name) 
+	visit path_to(page_name)
 end
 
-When /^I click "([^"]*)"$/ do |button|
-	click_button(button)
+When /^I click "([^"]*)"$/ do |link|
+	click_link(link)
 end
 
-When /^I change the location$/ do
+When /^I select "([^"]*)" from "([^"]*)"$/ do |option, select|
+  page.select(option, :from => select)
 end
 
 Then /^I should be on (.+)$/ do |page_name|
@@ -18,8 +19,10 @@ Then /^I should be on (.+)$/ do |page_name|
 	end
 end
 
-
-Then /^I should see a (different)?\s*list of times and lines$/ do |different|
+Then /^I should see a table of times and lines\s*(?:for "([^"]*)")?$/ do |location|
+  assert page.has_table?('upcoming_stops')
+  assert page.has_selector?(:xpath, "//tr[th = 'Time' and th = 'Location']")
+  if !location.nil?
+    assert page.has_selector?(:xpath, "//table/tr[td = #{location}]")
+  end
 end
-
-
