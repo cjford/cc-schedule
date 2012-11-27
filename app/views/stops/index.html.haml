@@ -1,0 +1,23 @@
+%div#wrapper
+  %h1 Stop#index
+
+  %a= link_to "Locations", locations_path 
+  %a= link_to "Lines", lines_path
+  %br 
+  %br
+
+  Location:
+  %select{:id => 'Location'}
+    - @locations.each do |location|
+      %option= location.name
+
+  %table#upcoming_stops
+    %tr
+      %th Location
+      %th Time
+      %th Line
+      - @stops.each do |stop|
+        %tr
+          %td= link_to Location.find(stop.location_id).name, location_path(stop.location_id)
+          %td= Time.parse(stop.hour.to_s + ':' + stop.minute.to_s).strftime("%l:%M %p")
+          %td= link_to Line.find(stop.line_id).name, line_path(stop.line_id)
