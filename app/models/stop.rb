@@ -12,21 +12,21 @@ class Stop < ActiveRecord::Base
     Stop.where(:location_id => id)
   end
 
-  def self.upcoming_stops_any(num_stops)
-    Stop.find(:all, {
-                :conditions => ["hour >= ? AND minute >= ? AND #{Time.now.strftime("%A")} = 't'", 
-                  Time.now.hour, Time.now.min], 
-                :order => "hour, minute", 
-                :limit => num_stops
-              })
-  end
-
   def self.upcoming_stops(num_stops, location)
-    Stop.find(:all, {
-                :conditions => ["hour >= ? AND minute >= ? AND location = ? AND #{Time.now.strftime("%A")} = 't'", 
-                  Time.now.hour, Time.now.min, location], 
-                :order => "hour, minute", 
-                :limit => num_stops
-              })
+    if location.nil?
+      Stop.find(:all, {
+                  :conditions => ["hour >= ? AND minute >= ? AND #{Time.now.strftime("%A")} = 't'", 
+                    Time.now.hour, Time.now.min], 
+                  :order => "hour, minute", 
+                  :limit => num_stops
+                })
+    else
+      Stop.find(:all, {
+                  :conditions => ["hour >= ? AND minute >= ? AND location_id = ? AND #{Time.now.strftime("%A")} = 't'", 
+                    Time.now.hour, Time.now.min, location], 
+                  :order => "hour, minute", 
+                  :limit => num_stops
+                })
+    end
   end
 end
