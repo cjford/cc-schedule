@@ -28,8 +28,15 @@ ActiveRecord::Schema.define(:version => 20121102031356) do
   create_table "stops", :force => true do |t|
     t.integer "line_id"
     t.integer "location_id"
-    t.string  "time"
-    t.string  "days"
+    t.integer "hour"
+    t.integer "minute"
+    t.boolean "monday"
+    t.boolean "tuesday"
+    t.boolean "wednesday"
+    t.boolean "thursday"
+    t.boolean "friday"
+    t.boolean "saturday"
+    t.boolean "sunday"
   end
 
   add_index "stops", ["line_id"], :name => "index_stops_on_line_id"
