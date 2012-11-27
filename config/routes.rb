@@ -1,14 +1,10 @@
 CcSchedule::Application.routes.draw do
-
-  controller :location do
-    get "location" => :index
-    get "location/:id" => :view
+  controller :stops do
+    get "/" => :index
   end
 
-  controller :line do
-    get "line" => :index
-    get "line/:id" => :view
-  end
+  resources :lines, :only => [:index, :show]
+  resources :locations, :only => [:index, :show]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
