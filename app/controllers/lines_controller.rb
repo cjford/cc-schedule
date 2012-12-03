@@ -5,5 +5,6 @@ class LinesController < ApplicationController
 
   def show
     @stops = Stop.line_stops(params[:id])
+    @line_name = Line.find(params[:id]).name
   end
 end
