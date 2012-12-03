@@ -23,6 +23,6 @@ Then /^I should see a table of times and lines\s*(?:for "([^"]*)")?$/ do |locati
   assert page.has_table?('upcoming_stops')
   assert page.has_selector?(:xpath, "//tr[th = 'Time' and th = 'Location']")
   if !location.nil?
-    assert page.has_selector?(:xpath, "//table/tr[td = #{location}]")
+    assert page.has_xpath?("//table/tbody/tr/td/a[contains(string(), #{location})]")
   end
 end
