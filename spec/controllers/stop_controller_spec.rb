@@ -1,20 +1,26 @@
 require 'spec_helper'
 
 describe StopsController, :type => :controller do
-
   describe "GET 'index'" do
+    before :each do
+      @request.cookies['line_filter'] = '12345'
+    end
+
     it "returns http success" do
       get 'index'
       response.should be_success
     end
+
     it "renders the 'index' view" do
       get 'index'
       response.should render_template('index')
     end
+
     it "calls the Stop model method to get next 10 stops" do
-      Stop.should_receive(:upcoming_stops).with(10, nil)
+      Stop.should_receive(:upcoming_stops)
       get 'index'
     end
+
     it "makes stop information available in the index view" do
       fake_results = [mock('Stop1'), mock('Stop2')]
       Stop.stub :upcoming_stops
@@ -23,5 +29,4 @@ describe StopsController, :type => :controller do
       assigns(:stops).should == fake_results
     end
   end
-
 end

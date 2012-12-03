@@ -1,8 +1,11 @@
 require 'spec_helper'
 
 describe LocationsController do
-  describe "GET 'index'" do
+  before :each do 
+    @request.cookies['line_filter'] = '12345'
+  end
 
+  describe "GET 'index'" do
     it "returns http success" do
       get 'index'
       response.should be_success
@@ -19,9 +22,7 @@ describe LocationsController do
     end
   end
 
-
   describe "GET 'show'" do
-
     it "returns http success" do
       get 'show', :id => 1
       response.should be_success
@@ -45,6 +46,5 @@ describe LocationsController do
       get 'show', :id => 1
       assigns(:stops).should == fake_results
     end
-
   end
 end
