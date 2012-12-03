@@ -1,2 +1,9 @@
-<h1>Location#view</h1>
-<p>Find me in app/views/location/view.html.erb</p>
+%h1= @location_name
+%table#stops
+  %tr
+    %th Time
+    %th Line
+    - @stops.each do |stop|
+      %tr{:class => cycle('odd', 'even')}
+        %td= Time.parse(stop.hour.to_s + ':' + stop.minute.to_s).strftime("%l:%M %p")
+        %td= link_to Line.find(stop.line_id).name, line_path(stop.line_id)
