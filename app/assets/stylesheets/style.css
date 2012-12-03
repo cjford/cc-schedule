@@ -1,0 +1,43 @@
+#inner_wrapper {
+  padding:10px 70px 50px 70px;
+}
+
+#settings {
+  background:#afafaf;
+}
+
+#wrapper {
+  background:white;
+  border:3px solid black;
+  display:table;
+  margin:auto;
+  text-align:center;
+}
+
+.dropdown {
+  background:#cfcfcf;
+  border:1px solid black;
+  padding-right:25px;
+  position:absolute;
+}
+
+.odd {
+  background:#cfcfcf;
+}
+
+body {
+  background:#990000;
+  padding:30px;
+}
+
+li {
+  list-style-type:none;
+}
+
+table {
+  margin:auto
+}
+
+td {
+  text-align:left;
+}
