@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+%html
+%head
+  %title CcSchedule
+  = stylesheet_link_tag    "application", :media => "all"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+%body
+  %div#wrapper
+    %button=link_to "Home", home_path
+    %button{:id => 'settings_toggle', :onclick => '$("#settings").slideToggle()'} Filter 
+    %div{:id => 'settings', :style => 'display:none'}
+      = form_tag('/') do 
+        - Line.all.each do |line|
+          = line.name
+          -if !cookies[:line_filter].include?(line.id.to_s)
+            = check_box_tag line.name, line.name, false 
+          -else
+            = check_box_tag line.name, line.name, true 
+        = submit_tag
+    %div#inner_wrapper
+      =yield
