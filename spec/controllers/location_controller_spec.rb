@@ -34,15 +34,15 @@ describe LocationsController do
     end
 
     it "calls the Stop model method to get stops for the specified location" do
-      Stop.stub :location_stops
-      Stop.should_receive :location_stops
+      Stop.stub :location
+      Stop.should_receive :location
       get 'show', :id => 1
     end
 
     it "makes location information available in the view" do
       fake_results = [mock('Stop1'), mock('Stop2')]
-      Stop.stub :location_stops
-      Stop.should_receive(:location_stops).and_return(fake_results)
+      Stop.stub :location
+      Stop.should_receive(:location).and_return(fake_results)
       get 'show', :id => 1
       assigns(:stops).should == fake_results
     end

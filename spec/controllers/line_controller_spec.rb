@@ -30,8 +30,8 @@ describe LinesController, :type => :controller do
     end
 
     it "calls the Stop model method to get stops for the specified line" do
-      Stop.stub :line_stops
-      Stop.should_receive :line_stops
+      Stop.stub :line
+      Stop.should_receive :line
       get 'show', :id => 1
     end
 
@@ -43,7 +43,7 @@ describe LinesController, :type => :controller do
     it "makes line information available in the view" do
       fake_results = [mock('Stop1'), mock('Stop2')]
       Stop.stub :line_stops
-      Stop.should_receive(:line_stops).and_return(fake_results)
+      Stop.should_receive(:line).and_return(fake_results)
       get 'show', :id => 1
       assigns(:stops).should == fake_results
     end
