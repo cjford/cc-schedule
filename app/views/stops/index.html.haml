@@ -1,6 +1,6 @@
 %div{:style => "display:inline-block"}
   = link_to "Locations", locations_path 
-  %img{:id => "locations_toggle", :src => "dropdown_arrow.gif"}
+  = image_tag('dropdown_arrow.gif', {:id => "locations_toggle"})
   %div{:id => "locations_dropdown", :class => "dropdown", :style => "display:none;"}
     %ul
       -@locations.each do |location|
@@ -8,7 +8,7 @@
 
 %div{:style => "display:inline-block"}
   = link_to "Lines", lines_path 
-  %img{:id => "lines_toggle", :src => "dropdown_arrow.gif"}
+  = image_tag('dropdown_arrow.gif', {:id => "lines_toggle"})
   %div{:id => "lines_dropdown", :class => "dropdown", :style => "display:none;"}
     %ul
       -@lines.each do |line|
