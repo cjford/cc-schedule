@@ -1,52 +1,51 @@
 class Stop < ActiveRecord::Base
-  #belongs_to :line
-  #belongs_to :location
+  belongs_to :location
+  belongs_to :line
   attr_accessible :line_id, :location_id, :hour, :minute, 
                   :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday 
 
 
   default_scope order(:hour, :minute)
 
-  scope :line_filter, lambda { |line_filter| where(:line_id => line_filter) }
-  
-  scope :upcoming, :conditions => ["hour > #{Time.now.hour} 
-                                    OR 
-                                    (hour = #{Time.now.hour} AND minute >= #{Time.now.min}) 
-                                    AND 
-                                    #{Time.now.strftime('%A')} = 't'"]
+  def self.upcoming
+    Stop.where("(hour > #{Time.now.hour} 
+                OR 
+                (hour = #{Time.now.hour} AND minute >= #{Time.now.min})) 
+                AND 
+                #{Time.now.strftime('%A')} = 't'"
+              )
+  end
 
-  scope :upcoming_tomorrow, :conditions => ["hour < #{Time.now.hour} 
-                                             AND 
-                                             #{(Time.now+86400).strftime('%A')} = 't'"]
+  def self.upcoming_tomorrow
+    Stop.where("hour < #{Time.now.hour} AND #{(Time.now+86400).strftime('%A')} = 't'")
+  end
 
-  scope :location, (lambda do |location| 
-    if !location.nil?
-      where(:location_id => location) 
+  def self.location(location_id)
+    if location_id.nil?
+      Stop.where(:conditions => {})
     else
-      {:conditions => {}}
+      Stop.where(:location_id => location_id)
     end
-  end)
-
-  def self.line_stops(id)
-    Stop.where(:line_id => id)
   end
 
-  def self.location_stops(id, line_filter)
-    Stop.where(:location_id => id, :line_id => line_filter)
+  def self.line(line_id)
+    if line_id.nil?
+      Stop.where(:conditions => {})
+    else
+      Stop.where(:line_id => line_id)
+    end
   end
 
-  def self.upcoming_stops(num_stops, location, line_filter)
-  
-    stops = Stop.location(location).upcoming.line_filter(line_filter).limit(num_stops)
+  def self.upcoming_stops(num_stops, location_id, line_filter)
+    stops = Stop.location(location_id).upcoming.line(line_filter).limit(num_stops)
 
     if stops.length < num_stops
-      extra_stops = Stop.location(location).upcoming_tomorrow.limit(num_stops - stops.length)
+      extra_stops = Stop.location(location_id).upcoming_tomorrow.line(line_filter).limit(num_stops - stops.length)
       extra_stops.each do |extra_stop|
         stops << extra_stop
       end
     end
     
     return stops
-
   end
 end

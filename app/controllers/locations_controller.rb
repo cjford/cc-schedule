@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
   end
 
   def show
-    @stops = Stop.location_stops(params[:id], cookies[:line_filter].split(''))
+    @stops = Stop.location(params[:id])
     @location_name = Location.find(params[:id]).name
   end
 end
