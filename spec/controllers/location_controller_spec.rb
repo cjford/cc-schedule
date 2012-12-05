@@ -3,6 +3,7 @@ require 'spec_helper'
 describe LocationsController do
   before :each do 
     @request.cookies['line_filter'] = '12345'
+    FactoryGirl.create :location
   end
 
   describe "GET 'index'" do
@@ -18,9 +19,10 @@ describe LocationsController do
 
     it "makes location information available in the index view" do
       get 'index'
-      assigns(:locations).should == Location.all
+      assigns(:locations).should =~ Location.where(:conditions => {})
     end
   end
+
 
   describe "GET 'show'" do
     it "returns http success" do
@@ -34,14 +36,12 @@ describe LocationsController do
     end
 
     it "calls the Stop model method to get stops for the specified location" do
-      Stop.stub :location
       Stop.should_receive :location
       get 'show', :id => 1
     end
 
     it "makes location information available in the view" do
       fake_results = [mock('Stop1'), mock('Stop2')]
-      Stop.stub :location
       Stop.should_receive(:location).and_return(fake_results)
       get 'show', :id => 1
       assigns(:stops).should == fake_results

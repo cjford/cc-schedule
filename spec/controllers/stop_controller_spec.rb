@@ -23,7 +23,6 @@ describe StopsController, :type => :controller do
 
     it "makes stop information available in the index view" do
       fake_results = [mock('Stop1'), mock('Stop2')]
-      Stop.stub :upcoming_stops
       Stop.should_receive(:upcoming_stops).and_return(fake_results)
       get 'index'
       assigns(:stops).should == fake_results
