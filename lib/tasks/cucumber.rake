@@ -42,15 +42,6 @@ begin
     end
   end
 
-  # Seed test db
-  namespace :db do
-    namespace :test do
-      task :prepare => :environment do
-        Rake::Task["db:seed"].invoke
-      end
-    end
-  end
-
   desc 'Alias for cucumber:ok'
   task :cucumber => 'cucumber:ok'
 
