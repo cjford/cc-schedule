@@ -1,4 +1,17 @@
 Feature: View cruiser schedules by location
+Background: items in database
+
+  Given the following lines exist:
+  | id   | name | 
+  | 1    | A    | 
+
+  Given the following locations exist:
+  | id   | name       | 
+  | 1    | Townhouses | 
+
+  Given the following stops exist:
+  | line_id   | location_id | hour | minute |
+  | 1         | 1           | 12   | 0      |
 
 Scenario: Navigate to location selection page
 	Given I am on the home page

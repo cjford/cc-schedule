@@ -1,3 +1,28 @@
+Given /the following lines exist:/ do |table|
+  table.hashes.each do |line|
+	l = Line.new(:id => line['id'], :name => line['name'])
+	l.save
+  end
+end
+
+Given /the following locations exist:/ do |table|
+  table.hashes.each do |location|
+	l = Location.new(:id => location['id'], :name => location['name'])
+	l.save
+  end
+end
+
+Given /the following stops exist:/ do |table|
+  table.hashes.each do |stop|
+  s = Stop.new(:line_id => stop['line_id'], :location_id => stop['location_id'], 
+               :hour => stop['hour'], :minute => stop['minute'], 
+               :monday => stop['monday'], :tuesday => stop['tuesday'], 
+               :wednesday => stop['wednesday'], :thursday => stop['thursday'], 
+               :friday => stop['friday'], :saturday => stop['saturday'], :sunday => stop['sunday'])
+  s.save
+  end
+end
+
 Given /^I am on (.+)$/ do |page_name|
 	visit path_to(page_name)
 end
