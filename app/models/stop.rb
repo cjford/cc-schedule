@@ -4,7 +4,6 @@ class Stop < ActiveRecord::Base
   attr_accessible :line_id, :location_id, :hour, :minute, 
                   :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday 
 
-
   default_scope order(:hour, :minute)
 
   def self.upcoming
@@ -17,7 +16,12 @@ class Stop < ActiveRecord::Base
   end
 
   def self.upcoming_tomorrow
-    Stop.where("hour < #{Time.now.hour} AND #{(Time.now+86400).strftime('%A')} = 't'")
+    Stop.where("(hour < #{Time.now.hour} 
+                OR
+                (hour = #{Time.now.hour} AND minute <= #{Time.now.min}))
+                AND
+                #{(Time.now+86400).strftime('%A')} = 't'"
+              )
   end
 
   def self.location(location_id)
@@ -37,9 +41,10 @@ class Stop < ActiveRecord::Base
   end
 
   def self.upcoming_stops(num_stops, location_id, line_filter)
-    stops = Stop.location(location_id).upcoming.line(line_filter).limit(num_stops)
+    upcoming = Stop.upcoming
+    stops = upcoming.location(location_id).line(line_filter).limit(num_stops)
 
-    if stops.length < num_stops
+    if upcoming.length < num_stops
       extra_stops = Stop.location(location_id).upcoming_tomorrow.line(line_filter).limit(num_stops - stops.length)
       extra_stops.each do |extra_stop|
         stops << extra_stop
