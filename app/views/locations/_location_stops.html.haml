@@ -1,0 +1,8 @@
+%table#location_stops
+  %tr
+    %th Time
+    %th Line
+    - @stops.each do |stop|
+      %tr{:class => cycle('odd', 'even')}
+        %td{:class => 'td_nonlink'}= Time.parse(stop.hour.to_s + ':' + stop.minute.to_s).strftime('%l:%M%P')
+        %td{:class => 'td_link'}= link_to Line.find(stop.line_id).name, line_path(stop.line_id)

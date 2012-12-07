@@ -1,33 +1,48 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
-  $('#locations_toggle').click(function() {
-    var src = ($('#locations_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
-    $('#locations_toggle').attr('src', src);
-    $('#locations_dropdown').slideToggle();
+  $('#location_toggle').click(function() {
+    var src = ($('#location_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
+    $('#location_toggle').attr('src', src);
+    $('#location_dropdown').slideToggle();
 
-    if($('#lines_dropdown').css('display') != 'none') {
-      $('#lines_dropdown').slideUp(100);
-      $('#lines_toggle').attr('src', '/assets/dropdown_arrow.gif');
+    if($('#line_dropdown').css('display') != 'none') {
+      $('#line_dropdown').slideUp(100);
+      $('#line_toggle').attr('src', '/assets/dropdown_arrow.gif');
     }
   });
 
-  $('#lines_toggle').click(function() {
-    var src = ($('#lines_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
-    $('#lines_toggle').attr('src', src);
-    $('#lines_dropdown').slideToggle();
+  $('#line_toggle').click(function() {
+    var src = ($('#line_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
+    $('#line_toggle').attr('src', src);
+    $('#line_dropdown').slideToggle();
 
-    if($('#locations_dropdown').css('display') != 'none') {
-      $('#locations_dropdown').slideUp(100);
-      $('#locations_toggle').attr('src', '/assets/dropdown_arrow.gif');
+    if($('#location_dropdown').css('display') != 'none') {
+      $('#location_dropdown').slideUp(100);
+      $('#location_toggle').attr('src', '/assets/dropdown_arrow.gif');
     }
   });
 
-  $('#locations_select').change(function() {
-    $('#upcoming_stops').load('/refresh/'+this.value)
+  $('#map_toggle').click(function() {
+    var src = ($('#map_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
+    $('#map_toggle').attr('src', src);
+    $('#line_map').slideToggle();
+    $('#map_status').html( ($('#map_status').html().indexOf("Show") == -1 ? "Show Map" : "Hide Map") )
+  });
+
+  $('#location_select').change(function() {
+    $('#upcoming_stops').load('/refresh_upcoming/'+this.value)
+  });
+
+  $('#line_day_select').change(function() {
+    $('#line_stops').load('/refresh_line/'+$('#line_id').html()+'/'+this.value)
+  });
+
+  $('#location_day_select').change(function() {
+    $('#location_stops').load('/refresh_location/'+$('#location_id').html()+'/'+this.value)
   });
 
   $('#refresh').click(function() {
-    $('#upcoming_stops').load('/refresh/'+$('#Location').attr('value'));
+    $('#upcoming_stops').load('/refresh_upcoming/'+$('#location_select').attr('value'));
   });
 
 });

@@ -1,30 +1,15 @@
-%div{:style => "display:inline-block"}
-  = link_to "Locations", locations_path 
-  = image_tag('dropdown_arrow.gif', {:id => "locations_toggle"})
-  %div{:id => "locations_dropdown", :class => "dropdown", :style => "display:none;"}
-    %ul
-      -@locations.each do |location|
-        %li= link_to location.name, location_path(location.id)
-
-%div{:style => "display:inline-block"}
-  = link_to "Lines", lines_path 
-  = image_tag('dropdown_arrow.gif', {:id => "lines_toggle"})
-  %div{:id => "lines_dropdown", :class => "dropdown", :style => "display:none;"}
-    %ul
-      -@lines.each do |line|
-        %li= link_to line.name, line_path(line.id)
 %br 
 %br
 
 Location:
-%select{:id => 'locations_select'}
-  %option All
+%select{:id => 'location_select'}
+  %option{:value => 0}All
   - @locations.each do |location|
-    %option{:value => url_encode(location.name)}= location.name
+    %option{:value => location.id}= location.name
 
 %br
 %br
 %button#refresh Refresh
 %br
-=render :partial => "upcoming_stops"
+= render :partial => 'upcoming_stops'
 

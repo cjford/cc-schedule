@@ -1,9 +1,20 @@
 %h1= 'Line ' +  @line_name
-%table#stops
-  %tr
-    %th Location
-    %th Time
-    - @stops.each do |stop|
-      %tr{:class => cycle('odd', 'even')}
-        %td= link_to Location.find(stop.location_id).name, location_path(stop.location_id)
-        %td= Time.parse(stop.hour.to_s + ':' + stop.minute.to_s).strftime("%l:%M %p")
+%span{:id => 'line_id', :class => 'no_display'}= @line_id
+%span{:id => 'map_status'}Show Map
+%br
+= image_tag 'dropdown_arrow.gif', :id => 'map_toggle'  
+%br
+= image_tag "#{@line_name}.png", :id => 'line_map', :class => 'no_display' 
+%br
+%select{:id => 'line_day_select'}
+  %option{:selected => (true if Time.now.monday?)    } Monday
+  %option{:selected => (true if Time.now.tuesday?)   } Tuesday
+  %option{:selected => (true if Time.now.wednesday?) } Wednesday
+  %option{:selected => (true if Time.now.thursday?)  } Thursday
+  %option{:selected => (true if Time.now.friday?)    } Friday
+  %option{:selected => (true if Time.now.saturday?)  } Saturday
+  %option{:selected => (true if Time.now.sunday?)    } Sunday
+%br
+%br
+= render :partial => 'line_stops'
+        

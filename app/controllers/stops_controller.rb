@@ -10,18 +10,13 @@ class StopsController < ApplicationController
       redirect_to request.referer
     end
 
-    @locations = Location.order("name")
+    @locations = Location.order :name
     @lines = Line.all
     @stops = Stop.upcoming_stops(10, nil, cookies[:line_filter].split(''))
   end
 
-  def refresh
-    if params[:location] == 'All'
-      location = nil
-    else
-      location = Location.where(:name => params[:location]).first.id
-    end
-
+  def refresh_upcoming
+    location = (params[:location_id] == '0' ? nil : params[:location_id])
     @stops = Stop.upcoming_stops(10, location, cookies[:line_filter].split(''))
     render :partial => "upcoming_stops"
   end

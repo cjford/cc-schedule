@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-
   before_filter :set_filter
   
   def set_filter
@@ -11,5 +10,4 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-
 end

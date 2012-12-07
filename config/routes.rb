@@ -1,6 +1,8 @@
 CcSchedule::Application.routes.draw do
   match '/' => 'stops#index', :as => 'home'
-  match '/refresh/:location' => 'stops#refresh'
+  match '/refresh_upcoming/:location_id' => 'stops#refresh_upcoming'
+  match '/refresh_line/:line_id/:day' => 'lines#refresh_line'
+  match '/refresh_location/:location_id/:day' => 'locations#refresh_location'
 
   resources :lines, :only => [:index, :show]
   resources :locations, :only => [:index, :show]

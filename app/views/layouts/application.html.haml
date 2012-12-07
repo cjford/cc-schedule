@@ -2,21 +2,38 @@
 %html
 %head
   %title CcSchedule
-  = stylesheet_link_tag    "application", :media => "all"
-  = javascript_include_tag "application"
+  = stylesheet_link_tag    'application', :media => 'all'
+  = javascript_include_tag 'application'
   = csrf_meta_tags
 %body
   %div#wrapper
-    %button=link_to "Home", home_path
-    %button{:id => 'settings_toggle', :onclick => '$("#settings").slideToggle()'} Filter 
-    %div{:id => 'settings', :style => 'display:none'}
-      = form_tag('/') do 
+    %button= link_to 'Home', home_path
+    %button{:id => 'line_filters_toggle', :onclick => "$('#line_filters').slideToggle()"} Filter 
+    %div{:id => 'line_filters', :class => 'no_display'}
+      = form_tag '/' do 
         - Line.all.each do |line|
           = line.name
-          -if !cookies[:line_filter].include?(line.id.to_s)
+          - if !cookies[:line_filter].include?(line.id.to_s)
             = check_box_tag line.name, line.name, false 
-          -else
+          - else
             = check_box_tag line.name, line.name, true 
         = submit_tag
     %div#inner_wrapper
-      =yield
+      %div{:class => 'ib_display'}
+        = image_tag 'dropdown_arrow.gif', :id => 'location_toggle' 
+        = link_to 'Locations', locations_path 
+        %div{:class => 'spacer'}
+        %div{:id => 'location_dropdown', :class => 'no_display dropdown'}
+          %ul
+            - Location.all.each do |location|
+              %li= link_to location.name, location_path(location.id)
+
+      %div{:class => 'ib_display'}
+        = link_to 'Lines', lines_path 
+        = image_tag 'dropdown_arrow.gif', :id => 'line_toggle'
+        %div{:id => 'line_dropdown', :class => 'no_display dropdown'}
+          %ul
+            - Line.all.each do |line|
+              %li= link_to line.name, line_path(line.id)
+
+      = yield
