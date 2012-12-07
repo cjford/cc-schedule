@@ -1,6 +1,6 @@
 Feature: View cruiser schedules by line
-Background: items in database
 
+Background: items in database
   Given the following lines exist:
   | id   | name | 
   | 1    | A    | 

@@ -23,16 +23,103 @@ Given /the following stops exist:/ do |table|
   end
 end
 
+Given /^today is (\S*)$/ do |day|
+  case day.downcase
+  when "sunday"
+    class Time
+      def sunday? ; return true end 
+      def monday? ; return false end 
+      def tuesday? ; return false end 
+      def wednesday? ; return false end 
+      def thursday? ; return false end 
+      def friday? ; return false end 
+      def saturday? ; return false end 
+    end
+  when "monday"
+    class Time
+      def sunday? ; return false end 
+      def monday? ; return true end 
+      def tuesday? ; return false end 
+      def wednesday? ; return false end 
+      def thursday? ; return false end 
+      def friday? ; return false end 
+      def saturday? ; return false end 
+    end
+  when "tuesday"
+    class Time
+      def sunday? ; return false end 
+      def monday? ; return false end 
+      def tuesday? ; return true end 
+      def wednesday? ; return false end 
+      def thursday? ; return false end 
+      def friday? ; return false end 
+      def saturday? ; return false end 
+    end
+  when "wednesday"
+    class Time
+      def sunday? ; return false end 
+      def monday? ; return false end 
+      def tuesday? ; return false end 
+      def wednesday? ; return true end 
+      def thursday? ; return false end 
+      def friday? ; return false end 
+      def saturday? ; return false end 
+    end
+  when "thursday"
+    class Time
+      def sunday? ; return false end 
+      def monday? ; return false end 
+      def tuesday? ; return false end 
+      def wednesday? ; return false end 
+      def thursday? ; return true end 
+      def friday? ; return false end 
+      def saturday? ; return false end 
+    end
+  when "friday"
+    class Time
+      def sunday? ; return false end 
+      def monday? ; return false end 
+      def tuesday? ; return false end 
+      def wednesday? ; return false end 
+      def thursday? ; return false end 
+      def friday? ; return true end 
+      def saturday? ; return false end 
+    end
+  when "saturday"
+    class Time
+      def sunday? ; return false end 
+      def monday? ; return false end 
+      def tuesday? ; return false end 
+      def wednesday? ; return false end 
+      def thursday? ; return false end 
+      def friday? ; return false end 
+      def saturday? ; return true end 
+    end
+  end
+end
+
 Given /^I am on (.+)$/ do |page_name|
 	visit path_to(page_name)
 end
 
-When /^I click "([^"]*)"$/ do |link|
-	click_link(link)
+When /^I click "([^"]*)"$/ do |item|
+	click_on(item)
 end
 
 When /^I select "([^"]*)" from "([^"]*)"$/ do |option, select|
   page.select(option, :from => select)
+  sleep(1)
+  # Sleep to let ajax calls return. Capybara devs suggest looking for a change in DOM to
+  # tell when this happens, but given this step is used in multple scenarios which 
+  # expect different things from the DOM, this is not practical.
+end
+
+When /^I check "([^"]*)"$/ do |field|
+  check(field)
+end
+
+When /^I uncheck "([^"]*)"$/ do |field|
+  uncheck(field)
 end
 
 Then /^I should be on (.+)$/ do |page_name|
@@ -44,10 +131,10 @@ Then /^I should be on (.+)$/ do |page_name|
 	end
 end
 
-Then /^I should see a table of times and lines\s*(?:for "([^"]*)")?$/ do |location|
-  assert page.has_table?('upcoming_stops')
-  assert page.has_selector?(:xpath, "//tr[th = 'Time' and th = 'Location']")
-  if !location.nil?
-    assert page.has_xpath?("//table/tbody/tr/td/a[contains(string(), #{location})]")
+Then /^I should\s*(\S+)*\s*see a table entry\s*(?:for "([^"]*)")?$/ do |negative, entry|
+  if negative.nil?
+    assert page.has_xpath?(".//table/tbody/tr/td/a", :text => "#{entry}", :visible => true)
+  else
+    assert page.has_no_xpath?(".//table/tbody/tr/td/a", :text => "#{entry}", :visible => true)
   end
 end
