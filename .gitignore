@@ -22,3 +22,6 @@
 
 # Ignore OS X folder file
 .DS_Store
+
+# Ignore simplecov data
+/coverage
