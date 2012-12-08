@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   $('#location_toggle').click(function() {
-    var src = ($('#location_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
+    var src = ($('#location_toggle').attr('src').indexOf('dropdown_arrow') == -1 ? '/assets/dropdown_arrow.gif' : '/assets/dropup_arrow.gif');
     $('#location_toggle').attr('src', src);
     $('#location_dropdown').slideToggle();
 
@@ -12,7 +12,7 @@ $(document).ready(function() {
   });
 
   $('#line_toggle').click(function() {
-    var src = ($('#line_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
+    var src = ($('#line_toggle').attr('src').indexOf('dropdown_arrow') == -1 ? '/assets/dropdown_arrow.gif' : '/assets/dropup_arrow.gif');
     $('#line_toggle').attr('src', src);
     $('#line_dropdown').slideToggle();
 
@@ -23,7 +23,7 @@ $(document).ready(function() {
   });
 
   $('#map_toggle').click(function() {
-    var src = ($('#map_toggle').attr('src') === '/assets/dropdown_arrow.gif' ? '/assets/dropup_arrow.gif' : '/assets/dropdown_arrow.gif');
+    var src = ($('#map_toggle').attr('src').indexOf('dropdown_arrow') == -1 ? '/assets/dropdown_arrow.gif' : '/assets/dropup_arrow.gif');
     $('#map_toggle').attr('src', src);
     $('#line_map').slideToggle();
     $('#map_status').html( ($('#map_status').html().indexOf("Show") == -1 ? "Show Map" : "Hide Map") )
