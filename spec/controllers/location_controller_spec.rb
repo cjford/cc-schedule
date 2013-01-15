@@ -19,7 +19,7 @@ describe LocationsController do
 
     it 'makes location information available in the view' do
       get 'index'
-      assigns(:locations).should =~ Location.where(:conditions => {})
+      assigns(:locations).should =~ Location.scoped
     end
   end
 
@@ -55,7 +55,7 @@ describe LocationsController do
     end
 
     it 'calls Stop#location' do
-      Stop.should_receive(:location).and_return(Stop.where(:conditions => {}))
+      Stop.should_receive(:location).and_return(Stop.scoped)
       get 'refresh_location', :location_id => 1, :day => 'Monday'
     end
 

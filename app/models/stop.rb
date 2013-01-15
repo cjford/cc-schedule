@@ -26,7 +26,7 @@ class Stop < ActiveRecord::Base
 
   def self.location(location_id)
     if location_id.nil?
-      Stop.where(:conditions => {})
+      Stop.scoped
     else
       Stop.where(:location_id => location_id)
     end
@@ -34,7 +34,7 @@ class Stop < ActiveRecord::Base
 
   def self.line(line_id)
     if line_id.nil?
-      Stop.where(:conditions => {})
+      Stop.scoped
     else
       Stop.where(:line_id => line_id)
     end
