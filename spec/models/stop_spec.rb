@@ -26,7 +26,7 @@ describe Stop do
         lines = Line.all
         lines.each { |line| line_ids << line.id }
         stops = Stop.line(line_ids)
-        stops.should =~ stops.where(:conditions => {})
+        stops.should =~ stops
       end
     end
 
@@ -46,7 +46,7 @@ describe Stop do
 
     context 'with nil' do
       it 'returns stops for all lines' do
-        Stop.line(nil).should == Stop.where(:conditions => {})
+        Stop.line(nil).should == Stop.scoped
       end
     end
   end
@@ -66,7 +66,7 @@ describe Stop do
         locations = Location.all
         locations.each { |location| location_ids << location.id }
         stops = Stop.location(location_ids)
-        stops.should =~ Stop.where(:conditions => {})
+        stops.should =~ Stop.scoped
       end
     end
 
@@ -86,7 +86,7 @@ describe Stop do
 
     context 'with nil' do
       it 'returns stops for all locations' do
-        Stop.location(nil).should == Stop.where(:conditions => {})
+        Stop.location(nil).should == Stop.scoped
       end
     end
   end
@@ -121,12 +121,12 @@ describe Stop do
     end
 
     it 'calls #line' do
-      Stop.should_receive(:line).at_least(1).and_return(Stop.where(:conditions => {}))
+      Stop.should_receive(:line).at_least(1).and_return(Stop.scoped)
       Stop.upcoming_stops(10, nil, @line_filter)
     end
 
     it 'calls #location' do
-      Stop.should_receive(:location).at_least(1).and_return(Stop.where(:conditions => {}))
+      Stop.should_receive(:location).at_least(1).and_return(Stop.scoped)
       Stop.upcoming_stops(10, nil, @line_filter)
     end
 
@@ -135,14 +135,14 @@ describe Stop do
     end
 
     it 'calls #upcoming' do
-      Stop.should_receive(:upcoming).at_least(1).and_return(Stop.where(:conditions => {}))
+      Stop.should_receive(:upcoming).at_least(1).and_return(Stop.scoped)
       Stop.upcoming_stops(10, nil, @line_filter)
     end
 
     context 'when there are less than the specified num_stops remaining in the current day' do
       it 'should call upcoming_tomorrow' do
         Time.stub(:now).and_return(Time.mktime(1970, 1, 1, 12, 00)) 
-        Stop.should_receive(:upcoming_tomorrow).and_return(Stop.where(:conditions => {}))
+        Stop.should_receive(:upcoming_tomorrow).and_return(Stop.scoped)
         Stop.upcoming_stops(3, nil, @line_filter)
       end
     end

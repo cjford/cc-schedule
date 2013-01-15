@@ -19,7 +19,7 @@ describe LinesController, :type => :controller do
 
     it 'makes line information available in the view' do
       get 'index'
-      assigns(:lines).should =~ Line.where(:conditions => {}) 
+      assigns(:lines).should =~ Line.scoped 
     end
   end
 
@@ -55,7 +55,7 @@ describe LinesController, :type => :controller do
     end
 
     it 'calls Stop#line' do
-      Stop.should_receive(:line).and_return(Stop.where(:conditions => {}))
+      Stop.should_receive(:line).and_return(Stop.scoped)
       get 'refresh_line', :line_id => 1, :day => 'Monday'
     end
 
